@@ -6,9 +6,10 @@ import { Component } from "@angular/core";
 })
 
 export class PostCreateComponent {
+  enteredValue = '';
   newPost = 'No Content';
-  
-  onAddPost(){
-    alert('Post Added!');
+
+  onAddPost() {
+    this.newPost = this.enteredValue;
   }
 }
