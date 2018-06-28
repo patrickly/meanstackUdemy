@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
 import { Post } from './post.model';
-//RiaSsVah2l0A83Jh
+
 @Injectable({providedIn: 'root'})
 export class PostsService {
   private posts: Post[] = [];
