@@ -9,7 +9,7 @@ const app = express();
 
 mongoose
   .connect(
-    "mongodb+srv://user123:RiaSsVah2l0A83Jh@cluster0-wfegf.mongodb.net/test?retryWrites=true"
+    "mongodb+srv://user123:RiaSsVah2l0A83Jh@cluster0-wfegf.mongodb.net/node-angular?retryWrites=true"
   )
   .then(() => {
     console.log("Connected to database!");
@@ -39,9 +39,9 @@ app.post("/api/posts", (req, res, next) => {
     title: req.body.title,
     content: req.body.content
   });
-  console.log(post);
+    post.save();
     res.status(201).json({
-      message: "Post added successfully",
+    message: "Post added successfully",
   });
 });
 
