@@ -1,63 +1,65 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Post = require("./models/post");
+const Post = require('./models/post');
 
 const app = express();
 
 mongoose
   .connect(
-    "mongodb+srv://user123:RiaSsVah2l0A83Jh@cluster0-wfegf.mongodb.net/node-angular?retryWrites=true"
+    'mongodb+srv://user123:RiaSsVah2l0A83Jh@cluster0-wfegf.mongodb.net/node-angular?retryWrites=true'
   )
   .then(() => {
-    console.log("Connected to database!");
+    console.log('Connected to database!');
   })
   .catch(() => {
-    console.log("Connection failed!");
+    console.log('Connection failed!');
   });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
   );
   res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE, OPTIONS"
+    'Access-Control-Allow-Methods',
+    'GET, POST, PATCH, DELETE, OPTIONS'
   );
   next();
 });
 
-app.post("/api/posts", (req, res, next) => {
+app.post('/api/posts', (req, res, next) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content
   });
-    post.save();
+  post.save().then(createdPost => {
     res.status(201).json({
-    message: "Post added successfully",
+      message: 'Post added successfully',
+      postId: createdPost._id
+    });
   });
 });
 
-app.get("/api/posts", (req, res, next) => {
+app.get('/api/posts', (req, res, next) => {
   Post.find().then(documents => {
     res.status(200).json({
-      message: "Posts fetched successfully!",
+      message: 'Posts fetched successfully!',
       posts: documents
     });
   });
 });
 
-app.delete("/api/posts/:id", (req, res, next) => {
+app.delete('/api/posts/:id', (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
-    res.status(200).json({ message: "Post deleted!" });
+    res.status(200).json({ message: 'Post deleted!' });
   });
 });
 
